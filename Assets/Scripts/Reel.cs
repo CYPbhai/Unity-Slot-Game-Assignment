@@ -25,19 +25,31 @@ public class Reel : MonoBehaviour
     [SerializeField] private float decelTime = 1f;
     [SerializeField] private float snapSpeed = 2f;
 
+    [Header("Symbols (assign in enum order: Seven, Cherry, Bell, Bar)")]
+    [SerializeField] private Transform[] symbolSprites;
+
+    [Header("Win Animation")]
+    [SerializeField] private float punchScale = 1.25f;
+    [SerializeField] private float punchDuration = 0.35f;
+    [SerializeField] private int punchCount = 2;
+
     [Header("Raise Events")]
     [SerializeField] private SlotChannelEventSO OnReelStopped;
 
     [Header("Subscribe Events")]
     [SerializeField] private IntChannelEventSO OnBet;
+    [SerializeField] private SlotChannelEventSO OnWinningSlot;
 
     private Slot stoppedSlot = Slot.None;
+    private Coroutine winAnimRoutine;
 
     private void OnEnable()
     {
-        OnBet.OnRaised += OnBet_OnRaised; ;
+        OnBet.OnRaised += OnBet_OnRaised;
+        OnWinningSlot.OnRaised += OnWinningSlot_OnRaised;
+
         int rnd = Random.Range(0, 8);
-        if(rnd%2 !=0)
+        if (rnd % 2 != 0)
         {
             rnd += 1;
         }
@@ -47,11 +59,19 @@ public class Reel : MonoBehaviour
     private void OnDisable()
     {
         OnBet.OnRaised -= OnBet_OnRaised;
+        OnWinningSlot.OnRaised -= OnWinningSlot_OnRaised;
     }
 
     private void OnBet_OnRaised(int number)
     {
         StartSpin();
+    }
+
+    private void OnWinningSlot_OnRaised(Slot winningSlot)
+    {
+        // Only play the animation if THIS reel actually landed on the winning symbol.
+        if (winningSlot == stoppedSlot)
+            PlayWinAnimation();
     }
 
     private void StartSpin()
@@ -61,6 +81,7 @@ public class Reel : MonoBehaviour
 
     private IEnumerator SpinRoutine()
     {
+        ResetWinAnimation(); // clear any leftover pulse from the previous round
         stoppedSlot = Slot.None;
 
         int landingIndex = Random.Range(0, slotCount);
@@ -124,5 +145,60 @@ public class Reel : MonoBehaviour
             pos.y -= WrapHeight;
 
         transform.position = pos;
+    }
+
+    // Converts a Slot enum value back into an array index
+    private int SlotToIndex(Slot slot)
+    {
+        return Mathf.RoundToInt((int)slot / slotSpacing);
+    }
+
+    private void PlayWinAnimation()
+    {
+        int index = SlotToIndex(stoppedSlot);
+        if (symbolSprites == null || index < 0 || index >= symbolSprites.Length)
+            return;
+
+        if (winAnimRoutine != null)
+            StopCoroutine(winAnimRoutine);
+
+        winAnimRoutine = StartCoroutine(PunchScale(symbolSprites[index]));
+    }
+
+    private void ResetWinAnimation()
+    {
+        if (winAnimRoutine != null)
+        {
+            StopCoroutine(winAnimRoutine);
+            winAnimRoutine = null;
+        }
+
+        if (symbolSprites == null) return;
+
+        foreach (var symbol in symbolSprites)
+        {
+            if (symbol != null)
+                symbol.localScale = Vector3.one;
+        }
+    }
+
+    private IEnumerator PunchScale(Transform target)
+    {
+        Vector3 originalScale = target.localScale;
+
+        for (int i = 0; i < punchCount; i++)
+        {
+            float t = 0f;
+            while (t < punchDuration)
+            {
+                t += Time.deltaTime;
+                float sine = Mathf.Sin((t / punchDuration) * Mathf.PI); // 0 -> 1 -> 0
+                // originalScale -> originalScale * punchScale -> originalScale
+                target.localScale = originalScale * (1f + sine * (punchScale - 1f));
+                yield return null;
+            }
+        }
+
+        target.localScale = originalScale;
     }
 }

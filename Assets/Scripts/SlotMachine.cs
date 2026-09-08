@@ -4,6 +4,7 @@ public class SlotMachine : MonoBehaviour
 {
     [Header("Raise Events")]
     [SerializeField] private IntChannelEventSO OnPayout;
+    [SerializeField] private SlotChannelEventSO OnWinningSlot;
 
     [Header("Subscribe Events")]
     [SerializeField] private SlotChannelEventSO OnReel1Stopped;
@@ -12,7 +13,7 @@ public class SlotMachine : MonoBehaviour
     [SerializeField] private IntChannelEventSO OnBet;
 
     private int betAmount;
-    private Slot[] finalSlots = {Slot.None, Slot.None, Slot.None };
+    private Slot[] finalSlots = { Slot.None, Slot.None, Slot.None };
     private int count = 0;
     private int Count
     {
@@ -23,7 +24,7 @@ public class SlotMachine : MonoBehaviour
         set
         {
             count = value;
-            if(count == 3)
+            if (count == 3)
             {
                 count = 0;
                 Payout();
@@ -79,65 +80,67 @@ public class SlotMachine : MonoBehaviour
 
         if ((slot1 == slot2) && (slot2 == slot3))
         {
-            switch(slot1)
+            switch (slot1)
             {
                 case Slot.Cherry:
                     {
                         OnPayout?.Raise(betAmount * cherryMultiplier);
                     }
                     break;
-                
+
                 case Slot.Bar:
                     {
                         OnPayout?.Raise(betAmount * barMultiplier);
                     }
                     break;
-                
+
                 case Slot.Bell:
                     {
                         OnPayout?.Raise(betAmount * bellMultiplier);
                     }
                     break;
-                
+
                 case Slot.Seven:
                     {
                         OnPayout?.Raise(betAmount * sevenMultiplier);
                     }
                     break;
-                
+
             }
+            OnWinningSlot?.Raise(slot1);
         }
-        else if((slot1 == slot2) || slot3 == slot1)
+        else if ((slot1 == slot2) || slot3 == slot1)
         {
             switch (slot1)
             {
                 case Slot.Cherry:
                     {
-                        OnPayout?.Raise(betAmount/ cherryDivisor);
+                        OnPayout?.Raise(betAmount / cherryDivisor);
                     }
                     break;
 
                 case Slot.Bar:
                     {
-                        OnPayout?.Raise(betAmount/barDivisor);
+                        OnPayout?.Raise(betAmount / barDivisor);
                     }
                     break;
 
                 case Slot.Bell:
                     {
-                        OnPayout?.Raise(betAmount/bellDivisor);
+                        OnPayout?.Raise(betAmount / bellDivisor);
                     }
                     break;
 
                 case Slot.Seven:
                     {
-                        OnPayout?.Raise(betAmount/sevenDivisor);
+                        OnPayout?.Raise(betAmount / sevenDivisor);
                     }
                     break;
 
             }
+            OnWinningSlot?.Raise(slot1);
         }
-        else if((slot2 == slot3))
+        else if ((slot2 == slot3))
         {
             switch (slot2)
             {
@@ -165,6 +168,7 @@ public class SlotMachine : MonoBehaviour
                     }
                     break;
             }
+            OnWinningSlot?.Raise(slot2);
         }
         else
         {

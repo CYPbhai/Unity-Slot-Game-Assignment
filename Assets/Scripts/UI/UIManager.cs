@@ -4,11 +4,24 @@ public class UIManager : MonoBehaviour
 {
     [Header("Subscribe Events")]
     [SerializeField] private IntChannelEventSO OnPayout;
+    [SerializeField] private IntChannelEventSO OnBet;
     [SerializeField] private PayoutUI payOutUI;
 
     private void OnEnable()
     {
         OnPayout.OnRaised += OnPayout_OnRaised;
+        OnBet.OnRaised += OnBet_OnRaised;
+    }
+    private void OnDisable()
+    {
+        OnPayout.OnRaised -= OnPayout_OnRaised;
+        OnBet.OnRaised -= OnBet_OnRaised;
+    }
+
+    private void OnBet_OnRaised(int number)
+    {
+        payOutUI.gameObject.SetActive(false);
+
     }
 
     // NOTE(CYPbhai): it's not a good practice to update global data in UI scripts

@@ -9,6 +9,8 @@ public class BetUI : MonoBehaviour
     [SerializeField] private IntChannelEventSO OnBetEvent;
     [Header("Subscribe Events")]
     [SerializeField] private IntChannelEventSO OnPayoutEvent;
+
+    [SerializeField] private GameObject outOfMoneyUI;
     private void Awake()
     {
         betButton100.onClick.AddListener(() =>
@@ -21,7 +23,7 @@ public class BetUI : MonoBehaviour
             }
             else
             {
-                Debug.Log("Not enough money!");
+                outOfMoneyUI.SetActive(true);
             }
         });
         betButton500.onClick.AddListener(() =>
@@ -34,7 +36,7 @@ public class BetUI : MonoBehaviour
             }
             else
             {
-                Debug.Log("Not enough money!");
+                outOfMoneyUI.SetActive(true);
             }
         });
     }

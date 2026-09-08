@@ -68,10 +68,10 @@ public class SlotMachine : MonoBehaviour
         int bellMultiplier = 5;
         int sevenMultiplier = 10;
 
-        int cherryDivisor = 10;
-        int barDivisor = 5;
-        int bellDivisor = 3;
-        int sevenDivisor = 2;
+        int cherryDivisor = 5;
+        int barDivisor = 3;
+        int bellDivisor = 2;
+        int sevenDivisor = 1;
 
         Slot slot1 = finalSlots[0];
         Slot slot2 = finalSlots[1];

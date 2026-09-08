@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 654eee92d297821439a31aa1f99ce744, type: 3}
+  m_Script: {fileID: 11500000, guid: 012530d3909a484448d0658e300a5d4a, type: 3}
   m_Name: OnPayout
-  m_EditorClassIdentifier: Assembly-CSharp::VoidChannelEventSO
+  m_EditorClassIdentifier: Assembly-CSharp::IntChannelEventSO

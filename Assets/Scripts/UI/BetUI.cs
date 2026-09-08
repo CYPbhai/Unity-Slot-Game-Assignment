@@ -8,14 +8,14 @@ public class BetUI : MonoBehaviour
     [Header("Raise Events")]
     [SerializeField] private IntChannelEventSO OnBetEvent;
     [Header("Subscribe Events")]
-    [SerializeField] private VoidChannelEventSO OnPayoutEvent;
+    [SerializeField] private IntChannelEventSO OnPayoutEvent;
     private void Awake()
     {
         betButton100.onClick.AddListener(() =>
         {
-            if(Balance.dollars >= 100)
+            if(Balance.currentBalance >= 100)
             {
-                Balance.dollars -= 100;
+                Balance.currentBalance -= 100;
                 OnBetEvent?.Raise(100);
                 DisableInteractivity();
             }
@@ -26,9 +26,9 @@ public class BetUI : MonoBehaviour
         });
         betButton500.onClick.AddListener(() =>
         {
-            if (Balance.dollars >= 500)
+            if (Balance.currentBalance >= 500)
             {
-                Balance.dollars -= 500;
+                Balance.currentBalance -= 500;
                 OnBetEvent?.Raise(500);
                 DisableInteractivity();
             }
@@ -47,7 +47,7 @@ public class BetUI : MonoBehaviour
     {
         OnPayoutEvent.OnRaised -= OnPayoutEvent_OnRaised;
     }
-    private void OnPayoutEvent_OnRaised()
+    private void OnPayoutEvent_OnRaised(int num)
     {
         EnableInteractivity();
     }

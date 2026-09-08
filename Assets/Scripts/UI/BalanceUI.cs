@@ -7,7 +7,7 @@ public class BalanceUI : MonoBehaviour
 
     [Header("Subscribe Events")]
     [SerializeField] private IntChannelEventSO OnBetEvent;
-    [SerializeField] private VoidChannelEventSO OnPayoutEvent;
+    [SerializeField] private IntChannelEventSO OnPayoutEvent;
 
     private void OnEnable()
     {
@@ -20,18 +20,18 @@ public class BalanceUI : MonoBehaviour
         OnBetEvent.OnRaised -= OnBetEvent_OnRaised;
         OnPayoutEvent.OnRaised -= OnPayoutEvent_OnRaised;
     }
-    private void OnPayoutEvent_OnRaised()
+    private void OnPayoutEvent_OnRaised(int num)
     {
         UpdateBalanceUI();
     }
 
-    private void OnBetEvent_OnRaised(int obj)
+    private void OnBetEvent_OnRaised(int num)
     {
         UpdateBalanceUI();
     }
 
     private void UpdateBalanceUI()
     {
-        balanceText.text = "$" + Balance.dollars;
+        balanceText.text = "$" + Balance.currentBalance;
     }
 }

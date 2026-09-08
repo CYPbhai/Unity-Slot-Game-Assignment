@@ -13,13 +13,29 @@ public class BetUI : MonoBehaviour
     {
         betButton100.onClick.AddListener(() =>
         {
-            OnBetEvent?.Raise(100);
-            DisableInteractivity();
+            if(Balance.dollars >= 100)
+            {
+                Balance.dollars -= 100;
+                OnBetEvent?.Raise(100);
+                DisableInteractivity();
+            }
+            else
+            {
+                Debug.Log("Not enough money!");
+            }
         });
         betButton500.onClick.AddListener(() =>
         {
-            OnBetEvent?.Raise(500);
-            DisableInteractivity();
+            if (Balance.dollars >= 500)
+            {
+                Balance.dollars -= 500;
+                OnBetEvent?.Raise(500);
+                DisableInteractivity();
+            }
+            else
+            {
+                Debug.Log("Not enough money!");
+            }
         });
     }
 

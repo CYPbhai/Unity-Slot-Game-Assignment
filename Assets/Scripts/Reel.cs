@@ -35,7 +35,7 @@ public class Reel : MonoBehaviour
 
     private void OnEnable()
     {
-        OnBet.OnRaised += StartSpin;
+        OnBet.OnRaised += OnBet_OnRaised; ;
         int rnd = Random.Range(0, 8);
         if(rnd%2 !=0)
         {
@@ -43,11 +43,18 @@ public class Reel : MonoBehaviour
         }
         transform.position = new Vector2(transform.position.x, rnd);
     }
+
     private void OnDisable()
     {
-        OnBet.OnRaised -= StartSpin;
+        OnBet.OnRaised -= OnBet_OnRaised;
     }
-    private void StartSpin(int num=0)
+
+    private void OnBet_OnRaised(int number)
+    {
+        StartSpin();
+    }
+
+    private void StartSpin()
     {
         StartCoroutine(SpinRoutine());
     }

@@ -1235,7 +1235,7 @@ GameObject:
   - component: {fileID: 476062803}
   - component: {fileID: 476062802}
   m_Layer: 5
-  m_Name: Balance
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2758,8 +2758,9 @@ GameObject:
   - component: {fileID: 1364307537}
   - component: {fileID: 1364307539}
   - component: {fileID: 1364307538}
+  - component: {fileID: 1364307540}
   m_Layer: 5
-  m_Name: MainPanel
+  m_Name: BalanceUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2823,6 +2824,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1364307536}
   m_CullTransparentMesh: 1
+--- !u!114 &1364307540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364307536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de4ed970c3f46ec4bb9800d2da46dfc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  balanceText: {fileID: 493574899}
+  OnBetEvent: {fileID: 11400000, guid: ca9ad11aee36a1c43b928cd97aab1409, type: 2}
+  OnPayoutEvent: {fileID: 11400000, guid: c9eb2255031f0da4da5b9bb98bb1d5cb, type: 2}
 --- !u!1 &1382557753
 GameObject:
   m_ObjectHideFlags: 0
@@ -3506,7 +3522,7 @@ MonoBehaviour:
   accelTime: 0.5
   minSpinTime: 2.5
   decelTime: 1
-  snapSpeed: 1
+  snapSpeed: 2
   OnReelStopped: {fileID: 11400000, guid: 182dd0047fbae7d4cb5e48897fe572f8, type: 2}
   OnBet: {fileID: 11400000, guid: ca9ad11aee36a1c43b928cd97aab1409, type: 2}
 --- !u!1 &1654333111
@@ -4040,7 +4056,7 @@ MonoBehaviour:
   accelTime: 0.5
   minSpinTime: 2.5
   decelTime: 1
-  snapSpeed: 1
+  snapSpeed: 2
   OnReelStopped: {fileID: 11400000, guid: 5bc3485836ecebf4590dacaa97df68af, type: 2}
   OnBet: {fileID: 11400000, guid: ca9ad11aee36a1c43b928cd97aab1409, type: 2}
 --- !u!1 &1998732309
@@ -4192,7 +4208,7 @@ MonoBehaviour:
   accelTime: 0.5
   minSpinTime: 2.5
   decelTime: 1
-  snapSpeed: 1
+  snapSpeed: 2
   OnReelStopped: {fileID: 11400000, guid: 5be8693e9172e054aae3aab3957b4020, type: 2}
   OnBet: {fileID: 11400000, guid: ca9ad11aee36a1c43b928cd97aab1409, type: 2}
 --- !u!1 &2075379988

@@ -25,22 +25,35 @@ public class Reel : MonoBehaviour
     [SerializeField] private float decelTime = 1f;
     [SerializeField] private float snapSpeed = 2f;
 
-    public bool isReelStopped = true;
-    public Slot stoppedSlot = Slot.None;
+    [Header("Raise Events")]
+    [SerializeField] private SlotChannelEventSO OnReelStopped;
 
-    private void Start()
+    [Header("Subscribe Events")]
+    [SerializeField] private IntChannelEventSO OnBet;
+
+    private Slot stoppedSlot = Slot.None;
+
+    private void OnEnable()
     {
-        StartSpin();
+        OnBet.OnRaised += StartSpin;
+        int rnd = Random.Range(0, 8);
+        if(rnd%2 !=0)
+        {
+            rnd += 1;
+        }
+        transform.position = new Vector2(transform.position.x, rnd);
     }
-
-    public void StartSpin()
+    private void OnDisable()
+    {
+        OnBet.OnRaised -= StartSpin;
+    }
+    private void StartSpin(int num=0)
     {
         StartCoroutine(SpinRoutine());
     }
 
     private IEnumerator SpinRoutine()
     {
-        isReelStopped = false;
         stoppedSlot = Slot.None;
 
         int landingIndex = Random.Range(0, slotCount);
@@ -91,7 +104,7 @@ public class Reel : MonoBehaviour
         // ensuring that final position is set correctly
         transform.position = new Vector2(transform.position.x, targetY);
         stoppedSlot = (Slot)Mathf.RoundToInt(targetY); // Based on enum
-        isReelStopped = true;
+        OnReelStopped?.Raise(stoppedSlot);
     }
 
     private void Move(float delta)
